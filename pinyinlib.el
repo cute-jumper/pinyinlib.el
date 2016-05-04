@@ -1,4 +1,4 @@
-;;; pinyinlib.el --- Library for converting first letter of Pinyin to Chinese characters  -*- lexical-binding: t; -*-
+;;; pinyinlib.el --- Library for converting first letter of Pinyin to Simplified/Traditional Chinese characters  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2016  Junpeng Qiu
 

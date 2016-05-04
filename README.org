@@ -1,5 +1,6 @@
 #+TITLE: pinyinlib.el
-Library for converting first letter of Pinyin to Chinese characters.
+Library for converting first letter of Pinyin to Simplified/Traditional Chinese
+characters.
 
 * Functions
 ** =pinyinlib-build-regexp-char=
