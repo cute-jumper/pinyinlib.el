@@ -1,4 +1,7 @@
 #+TITLE: pinyinlib.el
+[[https://melpa.org/#/pinyinlib][file:https://melpa.org/packages/pinyinlib-badge.svg]]
+[[https://stable.melpa.org/#/pinyinlib][file:https://stable.melpa.org/packages/pinyinlib-badge.svg]]
+
 Library for converting first letter of Pinyin to Simplified/Traditional Chinese
 characters.
 
