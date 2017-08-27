@@ -53,6 +53,8 @@ characters.
 * Packages that Use This Library
   - [[https://github.com/cute-jumper/ace-pinyin][ace-pinyin]]
   - [[https://github.com/cute-jumper/evil-find-char-pinyin][evil-find-char-pinyin]]
+  - [[https://github.com/redguardtoo/find-by-pinyin-dired][find-by-pinyin-dired]]
+  - [[https://github.com/xuchunyang/pinyin-search.el][pinyin-search]]
 
 * Acknowledgment
   - The ASCII char to Chinese character table(=pinyinlib--simplified-char-table=
