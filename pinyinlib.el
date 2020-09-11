@@ -61,13 +61,13 @@
 
 ;;   `pinyinlib-build-regexp-char' converts a letter to a regular
 ;;   expression containing all the Chinese characters whose pinyins start
-;;   with the letter.  It accepts four parameters:
+;;   with the letter.  It accepts five parameters:
 ;;   ,----
-;;   | char &optional no-punc-p tranditional-p only-chinese-p
+;;   | char &optional no-punc-p tranditional-p only-chinese-p mixed-p
 ;;   `----
 
 ;;   The first parameter `char' is the letter to be converted.  The latter
-;;   three parameters are optional.
+;;   four parameters are optional.
 ;;   - If `no-punc-p' is `t': it will not convert English punctuations to
 ;;     Chinese punctuations.
 
@@ -76,6 +76,10 @@
 
 ;;   - If `only-chinese-p' is `t': the resulting regular expression doesn't
 ;;     contain the English letter `char'.
+
+;;   - If `mixed-p' is `t': the resulting regular expression will mix
+;;     traditional and simplified Chinese characters. This parameter will take
+;;     precedence over `traditional-p'.
 
 ;;   When converting English punctuactions to Chinese/English punctuations,
 ;;   it uses the following table:
@@ -223,7 +227,7 @@ Thanks to BYVoid.")
     (?$ . "[￥$]")))
 
 (defun pinyinlib-build-regexp-char
-    (char &optional no-punc-p tranditional-p only-chinese-p)
+    (char &optional no-punc-p tranditional-p only-chinese-p mixed-p)
   (let ((diff (- char ?a))
         regexp)
     (if (or (>= diff 26) (< diff 0))
@@ -233,10 +237,13 @@ Thanks to BYVoid.")
                   pinyinlib--punctuation-alist))
             (regexp-quote (string char)))
       (setq regexp
-            (nth diff
-                 (if tranditional-p
-                     pinyinlib--traditional-char-table
-                   pinyinlib--simplified-char-table)))
+            (if mixed-p
+                (concat (nth diff pinyinlib--traditional-char-table)
+                        (nth diff pinyinlib--simplified-char-table))
+              (nth diff
+                   (if tranditional-p
+                       pinyinlib--traditional-char-table
+                     pinyinlib--simplified-char-table))))
       (if only-chinese-p
           (if (string= regexp "")
               regexp
@@ -245,9 +252,9 @@ Thanks to BYVoid.")
                 regexp)))))
 
 (defun pinyinlib-build-regexp-string
-    (str &optional no-punc-p tranditional-p only-chinese-p)
+    (str &optional no-punc-p tranditional-p only-chinese-p mixed-p)
   (mapconcat (lambda (c) (pinyinlib-build-regexp-char
-                      c no-punc-p tranditional-p only-chinese-p))
+                      c no-punc-p tranditional-p only-chinese-p mixed-p))
              str
              ""))
 
