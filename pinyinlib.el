@@ -152,21 +152,21 @@
   "The char table used by find char."
   :group 'convinience)
 
-(defcustom pinyinlib--simplified-char-table-test
-  'pinyinlib--pinyin-simplified-char-table
+(defcustom pinyinlib--simplified-char-table
+  pinyinlib--pinyin-simplified-char-table
   "Which simplified char table to use."
   :group 'pinyinlib
-  :type '(choice :tag "Which char table to use"
-                 (const :tag "Pinyin" pinyinlib--pinyin-simplified-char-table)
-                 (const :tag "Wubi" pinyinlib--wubi-simplified-char-table)))
+  :type `(choice :tag "Which char table to use"
+                 (const :tag "Pinyin" ,pinyinlib--pinyin-simplified-char-table)
+                 (const :tag "Wubi" ,pinyinlib--wubi-simplified-char-table)))
 
-(defcustom pinyinlib--traditional-char-table-test
-  'pinyinlib--pinyin-traditional-char-table
+(defcustom pinyinlib--traditional-char-table
+  pinyinlib--pinyin-traditional-char-table
   "Which traditional char table to use."
   :group 'pinyinlib
-  :type '(choice :tag "Which char table to use"
-                 (const :tag "Pinyin" pinyinlib--pinyin-traditional-char-table)
-                 (const :tag "Wubi" pinyinlib--wubi-traditional-char-table)))
+  :type `(choice :tag "Which char table to use"
+                 (const :tag "Pinyin" ,pinyinlib--pinyin-traditional-char-table)
+                 (const :tag "Wubi" ,pinyinlib--wubi-traditional-char-table)))
 
 (defconst pinyinlib--pinyin-simplified-char-table
   '("阿啊呵腌嗄锕吖爱哀挨碍埃癌艾唉矮哎皑蔼隘暧霭捱嗳瑷嫒锿嗌砹安案按暗岸俺谙黯鞍氨庵桉鹌胺铵揞犴埯昂肮盎奥澳傲熬敖凹袄懊坳嗷拗鏖骜鳌翱岙廒遨獒聱媪螯鏊"
