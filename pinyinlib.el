@@ -155,7 +155,7 @@
   :group 'convinience)
 
 (defcustom pinyinlib--char-table-type
-  'wubi
+  'pinyin
   "Which char table type to use."
   :group 'pinyinlib
   :type '(choice :tag "Which char table to use"
