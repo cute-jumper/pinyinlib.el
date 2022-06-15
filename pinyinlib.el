@@ -148,25 +148,19 @@
 ;;   please send me a PR.
 
 ;;; Code:
+(require 'cl-lib)
+
 (defgroup pinyinlib nil
   "The char table used by find char."
   :group 'convinience)
 
-(defcustom pinyinlib--simplified-char-table
-  pinyinlib--pinyin-simplified-char-table
-  "Which simplified char table to use."
+(defcustom pinyinlib--char-table-type
+  'wubi
+  "Which char table type to use."
   :group 'pinyinlib
-  :type `(choice :tag "Which char table to use"
-                 (const :tag "Pinyin" ,pinyinlib--pinyin-simplified-char-table)
-                 (const :tag "Wubi" ,pinyinlib--wubi-simplified-char-table)))
-
-(defcustom pinyinlib--traditional-char-table
-  pinyinlib--pinyin-traditional-char-table
-  "Which traditional char table to use."
-  :group 'pinyinlib
-  :type `(choice :tag "Which char table to use"
-                 (const :tag "Pinyin" ,pinyinlib--pinyin-traditional-char-table)
-                 (const :tag "Wubi" ,pinyinlib--wubi-traditional-char-table)))
+  :type '(choice :tag "Which char table to use"
+                 (const :tag "Pinyin" pinyin)
+                 (const :tag "Wubi" wubi)))
 
 (defconst pinyinlib--pinyin-simplified-char-table
   '("阿啊呵腌嗄锕吖爱哀挨碍埃癌艾唉矮哎皑蔼隘暧霭捱嗳瑷嫒锿嗌砹安案按暗岸俺谙黯鞍氨庵桉鹌胺铵揞犴埯昂肮盎奥澳傲熬敖凹袄懊坳嗷拗鏖骜鳌翱岙廒遨獒聱媪螯鏊"
@@ -304,9 +298,23 @@ Powered by OpenCC. Thanks to BYVoid.")
     (?* . "[×*]")
     (?$ . "[￥$]")))
 
+(defun pinyinlib--get-simplified-char-table ()
+    "Get the simplified char table."
+    (cl-case pinyinlib--char-table-type
+      ('wubi pinyinlib--wubi-simplified-char-table)
+      ('pinyin pinyinlib--pinyin-simplified-char-table)))
+
+(defun pinyinlib--get-traditional-char-table ()
+  "Get the traditional char table."
+  (cl-case pinyinlib--char-table-type
+    ('wubi pinyinlib--wubi-traditional-char-table)
+    ('pinyin pinyinlib--pinyin-traditional-char-table)))
+
 (defun pinyinlib-build-regexp-char
     (char &optional no-punc-p tranditional-p only-chinese-p mixed-p)
   (let ((diff (- char ?a))
+        (pinyinlib--simplified-char-table (pinyinlib--get-simplified-char-table))
+        (pinyinlib--traditional-char-table (pinyinlib--get-traditional-char-table))
         regexp)
     (if (or (>= diff 26) (< diff 0))
         (or (and (not no-punc-p)
