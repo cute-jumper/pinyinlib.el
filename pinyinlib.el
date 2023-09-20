@@ -228,14 +228,16 @@ Thanks to BYVoid.")
 
 (defun pinyinlib-build-regexp-char
     (char &optional no-punc-p tranditional-p only-chinese-p mixed-p)
-  (let ((diff (- char ?a))
-        regexp)
+  (let* ((upper-char (upcase char))
+         (lower-char (if (eq char upper-char) (downcase char) char))
+         (diff (- lower-char ?a))
+         regexp)
     (if (or (>= diff 26) (< diff 0))
         (or (and (not no-punc-p)
                  (assoc-default
-                  char
+                  lower-char
                   pinyinlib--punctuation-alist))
-            (regexp-quote (string char)))
+            (regexp-quote (string lower-char)))
       (setq regexp
             (if mixed-p
                 (concat (nth diff pinyinlib--traditional-char-table)
@@ -248,8 +250,9 @@ Thanks to BYVoid.")
           (if (string= regexp "")
               regexp
             (format "[%s]" regexp))
-        (format "[%c%s]" char
-                regexp)))))
+        (if (bound-and-true-p isearch-case-fold-search)
+            (format "[%c%c%s]" lower-char upper-char regexp)
+          (format "[%c%s]" char regexp))))))
 
 (defun pinyinlib-build-regexp-string
     (str &optional no-punc-p tranditional-p only-chinese-p mixed-p)
